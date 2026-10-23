@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的个人主页</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav>
+        <a href="#about">关于我</a>
+        <a href="#skills">我的学习方向</a>
+        <a href="#projects">我的项目</a>
+        <a href="#contact">联系我</a>
+    </nav>
+    <button id="theme-toggle">切换深色模式</button>
+    <div class="card">
+        <h1>你好，世界！</h1>
+        <div class="profile">
+            <img src="images/avatar2.jpg" alt="我的头像" width="150">
+            <div>
+                <h2 id="about">关于我</h2>
+                <p>我是一名计算机专业的学生，正在学习python、人工智能与网络安全。</p>
+            </div>
+        </div>
+    </div>
+    <h2 id="skills">我的学习方向</h2>
+    <ul> 
+        <li>Python 编程</li>
+        <li>人工智能与Agent</li>
+        <li>网络安全</li>
+    </ul>
+    <section id="projects">
+        <h2>My Projects</h2>
+        
+        <div class="project-card">
+            <h3>个人主页</h3>
+            <p>使用HTML和CSS构建的第一个个人网站。</p>
+
+            <button class = "detail-toggle">查看项目详情</button>
+
+            <div class="project-details" hidden>
+                <p>项目功能：</p>
+                <ul>
+                    <li>个人介绍和学习方向展示</li>
+                    <li>页面内部导航</li>
+                    <li>响应式布局</li>
+                    <li>深色模式切换</li>
+                </ul>
+                <p>技术栈：HTML、CSS、JavaScript.</p>
+            </div>
+            <p>学习内容：网页结构/样式设计/页面导航。</p>
+        </div>
+        <div class="project-card">
+            <h3>AI智能体学习实践</h3>
+            <p>探索使用大语言模型构建能够理解指令、调用工具并完成任务的应用</p>
+
+            <button class = "detail-toggle">查看项目详情</button>
+
+            <div class="project-details" hidden>
+                <p>计划学习内容：</p>
+                <ul>
+                    <li>理解大语言模型API的基本调用</li>
+                    <li>学习工具调用与任务流程设计</li>
+                    <li>尝试开发一个简单的个人助手</li>
+                </ul>
+                <p>计划技术栈：python、JavaScript、LLM API.</p>
+                <p>状态：学习计划中。</p>
+            </div>
+
+        </div>
+        <section id="contact">
+            <h2>联系我</h2>
+            <p>如果你对我的学习项目感兴趣，欢迎联系我</p>
+
+            <p>
+                邮箱：
+                <span id = "email">hywo3493274513o@sjtu.edu.cn</span>
+            </p>
+
+            <button id="copy-email">复制邮箱地址</button>
+            <p id="copy-message" aria-live="polite"></p>
+        </section>
+    </section>
+    <p>I'm learning Python, which can visit <a href="https://www.python.org/">Python official website</a> to learn more.</p>
+    <script src="script.js"></script>
+</body>
+</html>

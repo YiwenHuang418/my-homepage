@@ -1,0 +1,98 @@
+body{
+    background-color: #f0f4f8;
+    color: #243047;
+    font-family: Arial, sans-serif;
+    margin: 40px;
+    
+}
+.card{
+    background-color: white;
+    padding: 24px;
+    border-radius: 12px;
+    max-width: 700px;
+    margin: 30px auto;
+}
+.card h1{
+    margin-top: 0;
+}
+.profile{
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+.profile h2{
+    margin-bottom: 4px;
+}
+.profile p{
+    margin-top: 0;
+}
+nav{
+    display:flex;
+    gap: 10px;
+    margin-bottom: 24px;
+}
+nav a{
+    color: #243047;
+    text-decoration: none;
+    font-weight: bold;
+}
+.project-card{
+    background-color: white;
+    padding: 20px;
+    border-radius: 12px;
+    margin-top: 16px;
+    border: 1px solid #dfd4e4;
+}
+@media (max-width:600px) {
+    .profile{
+        flex-direction: column;
+        align-items: flex-start;
+    }    
+    .card{
+        padding:16px;
+    }
+}
+body.dark-mode{
+    background-color: #111827;
+    color: #f3f4f6;
+}
+body.dark-mode .card{
+    background-color: #1f2937;
+}
+body.dark-mode nav a{
+    color:#f3f4f6;
+}
+body.dark-mode .project-card{
+    background-color: #1f2937;
+    border-color: #374151;
+}
+
+nav a:hover {
+    color: #2563eb;
+}
+
+button{
+    padding: 10px 16px; /* 上、下为 10px；左、右为 16px */
+    /* padding: 10px 16px 20px;	上 10px；左、右 16px；下 20px*/
+    /* padding: 10px 16px 20px 24px;	上 10px；右 16px；下 20px；左 24px*/
+    border:none;
+    border-radius: 8px;
+    background-color: #2563eb;
+    color: white;
+    cursor:pointer;
+    transition: background-color 0.2s ease;/*背景颜色变化时执行过渡效果；变化开始时较慢，中间较快，结束时再逐渐放慢*/
+}
+
+button:hover{
+    background-color: #1d4ed8;
+}
+
+.project-card{
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.project-card:hover{
+    transform: translate(-4px);/*让卡片沿垂直方向向上移动 4px。负值表示向上 */
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);/*表示黑色的阴影颜色，透明度为 0.08*/
+
+}
