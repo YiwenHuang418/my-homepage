@@ -82,6 +82,21 @@ copyButton.addEventListener("click", async function () {//async 和 await 是 Ja
     } 
 });
 
+/* ===== 鼠标跟随光晕 ===== */
+const cursorGlow = document.querySelector(".cursor-glow");
+
+if(cursorGlow){
+    document.addEventListener("pointermove", function(event){
+        //获取鼠标在浏览器视口中的坐标
+        const x = event.clientX;
+        const y = event.clientY;
+
+        //更新光晕的位置,.style访问这个元素内联的CSS样式，定位光晕盒子的左上角而非圆心
+        cursorGlow.style.left = x + "px";
+        cursorGlow.style.top = y + "px";
+    })
+}
+
 //id：通常用来唯一定位一个元素。
 //class：通常用来标记一组具有相同特征的元素。
 
