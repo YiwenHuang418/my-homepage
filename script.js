@@ -62,17 +62,52 @@ const copyMessage = document.getElementById("copy-message");
 
 //async表示这是一个异步函数，让函数内部可以使用await等待异步操作，调用 async 函数会返回一个 Promise。
 copyButton.addEventListener("click", async function () {//async 和 await 是 JavaScript 处理异步操作的常用方式
-        try{//await等待异步操作(请求浏览器写入剪贴板）的完成，再继续执行后面的代码
+    try{//await等待异步操作(请求浏览器写入剪贴板）的完成，再继续执行后面的代码
             //await：在这个函数中等待某个 Promise 的结果。
             //等待原因：浏览器需要完成一次剪贴板写入，才能确定是否成功。我们不能假设每次调用都会立即成功，所以使用 try/catch 来处理可能发生的错误。
         await navigator.clipboard.writeText(emailText.textContent); //访问浏览器的剪贴板接口，将文字写入剪贴板（获取邮箱元素中的文字）
         copyMessage.textContent = "邮箱已复制";//在修改页面上的提示文字，而不是弹出一个新窗口。
+        
+        setTimeout(function(){
+            copyMessage.textContent = "";
+        }, 2000);
+
     } catch(error){
         copyMessage.textContent = "复制失败，请手动选择并复制邮箱地址";
         console.error("复制失败：", error);
+
+        setTimeout(function(){
+            copyMessage.textContent = "";
+        }, 2000);
     } 
 });
 
 //id：通常用来唯一定位一个元素。
 //class：通常用来标记一组具有相同特征的元素。
 
+/*
+git add：选择哪些文件进入下一次提交。
+git commit：将暂存区中的内容正式保存到本地版本历史。
+git status：查看当前文件和暂存区的状态。
+git init → git add . → git commit
+内容	含义
+origin	远程仓库的名称，相当于一个昵称
+仓库 URL	GitHub 上的仓库地址
+(fetch)	从远程仓库获取信息或代码时使用的地址
+(push)	向远程仓库上传提交时使用的地址
+
+每次更新网站需要：
+git add .
+git commit -m "Update homepage"  -m后面跟着的是说明文字
+git push
+
+-v 是 --verbose 的简写，意思是“详细显示”
+-u：--set-upstream在 git push 中建立跟踪关系，告诉 Git，你本地的 main 分支默认对应 GitHub 上的 origin/main 分支
+
+GitHub Pages 的项目网站通常遵循这个格式：
+https://用户名.github.io/仓库名称/
+
+检查 DOM 元素：通过 document.querySelector(".profile img") 确认选择器找到了头像。
+检查计算后的 CSS：通过 getComputedStyle() 查看浏览器实际采用的动画参数。
+检查动画实例：通过 getAnimations() 判断动画是否真正创建。
+*/

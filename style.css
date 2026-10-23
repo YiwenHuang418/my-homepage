@@ -37,12 +37,29 @@ nav a{
     font-weight: bold;
 }
 .project-card{
-    background-color: white;
+    position: relative;
+    overflow: hidden;
+
+    background: rgba(255,255,255,0.28);
+    border:1px solid rgba(255,255,255,0.75);
+    border-radius: 16px;
+
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+
+    box-shadow: 0 8px 30px rgba(31, 38, 135, 0.08);
+
     padding: 20px;
-    border-radius: 12px;
     margin-top: 16px;
-    border: 1px solid #dfd4e4;
+
+    transition: 
+        transform 0.3s ease, 
+        box-shadow 0.3s ease,
+        border-color 0.3s ease,
+        background-color 0.3s ease;
+    
 }
+
 @media (max-width:600px) {
     .profile{
         flex-direction: column;
@@ -63,9 +80,15 @@ body.dark-mode nav a{
     color:#f3f4f6;
 }
 body.dark-mode .project-card{
-    background-color: #1f2937;
-    border-color: #374151;
+    background: rgba(15,23,42,0.38);
+    border-color: rgba(148,163,184,0.30);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.18);
+    
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
 }
+
+
 
 nav a:hover {
     color: #2563eb;
@@ -87,12 +110,124 @@ button:hover{
     background-color: #1d4ed8;
 }
 
-.project-card{
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
+
 
 .project-card:hover{
-    transform: translate(-4px);/*让卡片沿垂直方向向上移动 4px。负值表示向上 */
-    box-shadow: 0 8px 20px rgba(0,0,0,0.08);/*表示黑色的阴影颜色，透明度为 0.08*/
+    transform: translateY(-8px);/*让卡片沿垂直方向向上移动 4px。负值表示向上 */
+    border-color: rgba(96,165,250,0.95);
+    box-shadow: 
+        0 16px 40px rgba(59,130,246,0,20),/*表示黑色的阴影颜色，透明度为 0.08*/
+        0 0 24px rgba(96,165,250,0.20);
+}
+
+/*深色模式下增强发光*/
+body.dark-mode .project-card{
+    background-color: rgba(30,41, 59, 0.52);
+    border-color: rgba(129,140,248,0.90);
+    box-shadow: 
+        0 16px 40px rgba(99,102,241,0.26),
+        0 0 28px rgba(129,140,248,0.22);
+}
+
+/*尊重用户减少动态效果偏好*/
+@media (prefers-reduced-motion: reduce){
+    .project-card{
+        transition:none;
+    }
+    .project-card:hover{
+        transform: none;
+    }
+}
+
+
+/*头像的悬浮动画*/
+.profile img{
+    animation:avatar-float 3s ease-in-out infinite; 
+}
+/*
+animation：启动动画
+avatar-float：动画名称。
+3s：一次完整动画持续 3 秒。
+ease-in-out：开始和结束较慢，中间较快。
+infinite：无限循环。
+*/
+
+/*定义动画的关键帧*/
+@keyframes avatar-float{
+    0%, 100%{
+        transform: translateY(0);
+    }
+
+    50%{
+        transform: translateY(-8px);
+    }
+}
+/*
+@keyframes：定义动画过程
+- 0%：动画开始，头像位于原位。
+- 50%：动画进行到一半，头像向上移动 8px。
+- 100%：回到原位，随后重新循环。
+*/
+
+/* 尊重用户的减少动态效果偏好 */
+/*如果访客在操作系统中设置了减少动态效果，头像动画就会关闭，避免不必要的运动干扰。*/
+@media (prefers-reduced-motion: reduce){
+    .profile img{ /*选择 .profile 元素内部的 img 图片*/
+        animation:none;
+    }
+}
+
+/* ===== 动态渐变背景 ===== */
+
+/* 浅色模式 */
+/* linear-gradient():创建渐变*/
+body{
+    background-image: linear-gradient(
+        -45deg, /*渐变方向*/
+        #dbeafe,
+        #ede9fe,
+        #e0f2fe,
+        #ccfbf1
+    );
+
+    background-size: 400% 400%;
+    animation: gradient-flow 8s ease infinite;
+}
+
+/* 深色模式 */
+body.dark-mode{
+    background-image: linear-gradient(
+        -45deg,
+        #0f172a,
+        #312e81,
+        #164e63,
+        #1e1b4b
+    );
 
 }
+
+/*定义渐变流动方式*/
+/*让背景循环移动，背景并不是在切换几张图片，而是浏览器持续改变渐变背景的位置*/
+@keyframes gradient-flow{
+    0%{
+        background-position: 0% 50%;
+    }
+
+    50%{
+        background-position: 100% 50%;
+    }
+
+    100%{
+        background-position: 0% 50%;
+    }
+}
+
+/* 尊重系统的减少动态效果偏好*/
+@media(prefers-reduced-motion: reduce){
+    body{
+        animation: none;
+    }
+}
+
+
+
