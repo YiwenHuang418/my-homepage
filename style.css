@@ -306,10 +306,11 @@ body > ul{
 
     transform:translateY(-50%) translateX(-6px);
 
-    padding: 3px 5px;
+    padding: 6px 10px;
     border-radius: 8px;
 
     background: rgba(15,23,42,0.92);
+    border: 1px solid rgba(255, 255, 255, 0.7);
     color:white;
     font-size: 13px;
     white-space:nowrap;
