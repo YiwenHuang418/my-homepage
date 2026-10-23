@@ -245,7 +245,7 @@ body.dark-mode{
     );
 
     pointer-events: none;
-    /*保证光晕不会挡住按钮和链接的点击*/
+    /*保证光晕不会挡住按钮和链接的点击,忽略这个光晕元素作为鼠标事件目标的资格*/
     z-index: 0;
 
     left:0;
@@ -291,3 +291,63 @@ body > ul{
     position:relative;
     z-index:1;
 }
+
+/* 邮箱复制按钮与提示框 */
+.copy-wrapper{
+    position:relative;
+    display: inline-block;
+}
+
+/*默认隐藏提示框*/
+.copy-toast{
+    position:absolute;
+    left:calc(100% + 12px);
+    top:50%;
+
+    transform:translateY(-50%) translateX(-6px);
+
+    padding: 3px 5px;
+    border-radius: 8px;
+
+    background: rgba(15,23,42,0.92);
+    color:white;
+    font-size: 13px;
+    white-space:nowrap;
+
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+
+    transition: 
+        opacity 0.2s ease,
+        transform 0.2s ease,
+        visibility 0.2s ease;
+
+    z-index: 10;
+
+}
+
+.copy-toast.show{
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(-50%) translateX(0);
+}
+
+body.dark-mode .copy-toast{
+    background: rgba(226, 232, 240, 0.95);
+    color:#0f172a;
+}
+
+/*
+@media (max-width:600px){
+    .copy-toast{
+        left:0;
+        top:calc(100% + 8px);
+        transform: translateY(-4px);
+    }
+
+    .copy-toast.show{
+        transform:translateY(0);
+    }
+}
+*/

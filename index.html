@@ -18,7 +18,7 @@
     <div class="card">
         <h1>你好，世界！</h1>
         <div class="profile">
-            <img src="images/avatar2.jpg" alt="我的头像" width="150">
+            <img src="images/avatar.png" alt="我的头像" width="150">
             <div>
                 <h2 id="about">关于我</h2>
                 <p>我是一名计算机专业的学生，正在学习python、人工智能与网络安全。</p>
@@ -78,9 +78,14 @@
                 邮箱：
                 <span id = "email">hywo3493274513o@sjtu.edu.cn</span>
             </p>
-
-            <button id="copy-email">复制邮箱地址</button>
+            <span class="copy-wrapper">
+                <button id="copy-email">复制邮箱地址</button>
+                <span id="copy-message" class="copy-toast"
+                    role="status" aria-live="polite"></span>
+            </span>
+            
             <p id="copy-message" aria-live="polite"></p>
+            <!-- 不会打断用户当前的朗读或操作 -->
         </section>
     </section>
     <p>I'm learning Python, which can visit <a href="https://www.python.org/">Python official website</a> to learn more.</p>

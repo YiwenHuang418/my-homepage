@@ -60,27 +60,31 @@ const copyButton = document.getElementById("copy-email");
 const emailText = document.getElementById("email");
 const copyMessage = document.getElementById("copy-message");
 
+let toastTimer;
 //async表示这是一个异步函数，让函数内部可以使用await等待异步操作，调用 async 函数会返回一个 Promise。
 copyButton.addEventListener("click", async function () {//async 和 await 是 JavaScript 处理异步操作的常用方式
     try{//await等待异步操作(请求浏览器写入剪贴板）的完成，再继续执行后面的代码
             //await：在这个函数中等待某个 Promise 的结果。
             //等待原因：浏览器需要完成一次剪贴板写入，才能确定是否成功。我们不能假设每次调用都会立即成功，所以使用 try/catch 来处理可能发生的错误。
         await navigator.clipboard.writeText(emailText.textContent); //访问浏览器的剪贴板接口，将文字写入剪贴板（获取邮箱元素中的文字）
-        copyMessage.textContent = "邮箱已复制";//在修改页面上的提示文字，而不是弹出一个新窗口。
-        
-        setTimeout(function(){
-            copyMessage.textContent = "";
-        }, 2000);
-
+        showToast("邮箱已复制");//在修改页面上的提示文字，而不是弹出一个新窗口。
     } catch(error){
-        copyMessage.textContent = "复制失败，请手动选择并复制邮箱地址";
         console.error("复制失败：", error);
-
-        setTimeout(function(){
-            copyMessage.textContent = "";
-        }, 2000);
+        showToast("复制失败，请手动复制");
     } 
 });
+
+function showToast(message){
+    copyMessage.textContent = message;
+    copyMessage.classList.add("show"); //显示提示框
+
+    //如果连续点击，重新开始计时
+    clearTimeout(toastTimer);
+
+    toastTimer = setTimeout(function(){
+        copyMessage.classList.remove("show"); //隐藏提示框
+    }, 2000);
+}
 
 /* ===== 鼠标跟随光晕 ===== */
 const cursorGlow = document.querySelector(".cursor-glow");
