@@ -40,10 +40,18 @@ toggle("dark-mode")：如果存在 dark-mode，就移除它；如果不存在，
 //querySelector() 会根据 CSS 选择器找到第一个匹配的元素。
 const cards = document.querySelectorAll(".project-card");
 
-cards.forEach(function (card){ //循环进行展开
+cards.forEach(function (card, index){ //循环进行展开
+    // 设置每张卡片的过渡延迟
+    card.style.setProperty(
+        "--reveal-delay",
+        `${index * 0.15}s`
+    );
+
+    // 获取当前卡片内部的按钮和详情区域
     const detailButton = card.querySelector(".detail-toggle");
     const projectDetails = card.querySelector(".project-details");
 
+    // 绑定详情按钮事件
     detailButton.addEventListener("click",function(){
         projectDetails.hidden = !projectDetails.hidden;
 
@@ -100,6 +108,75 @@ if(cursorGlow){
         cursorGlow.style.top = y + "px";
     })
 }
+
+/* =====滚动显现动画 ===== */
+const projectCards = document.querySelectorAll(".project-card");
+
+const observer = new IntersectionObserver(
+    function(entries, observer){
+        entries.forEach(function(entry){
+            if(entry.isIntersecting){
+                entry.target.classList.add("show");
+                observer.unobserve(entry.target);//观察器不再监测当前这张卡片
+            }
+        });
+    },
+    {
+        threshold: 0.15
+    }
+);
+
+
+projectCards.forEach(function(card){//主动获取所有项目卡片
+    observer.observe(card);
+});
+
+/* ===== 当前区域导航高亮 ===== */
+const navLinks = document.querySelectorAll('nav a[href^="#"]');
+
+const sections = Array.from(navLinks)
+    .map(function (link) {
+        return document.querySelector(link.getAttribute("href"));
+    })
+    .filter(function (section) {
+        return section !== null;
+    });
+
+function updateActiveNav(){
+    //以视口顶部往下约35%的位置作为判断线
+    const marker = window.innerHeight * 0.35;
+
+    let currentSection = sections[0];
+
+    sections.forEach(function(section){
+        const rect = section.getBoundingClientRect();
+
+        if(rect.top <= marker){
+            currentSection = section;
+        }
+    });
+
+    //只让当前区域对应导航链接拥有active类
+    navLinks.forEach( function(link){
+        const isActive = 
+            link.getAttribute("href") === "#" + currentSection.id;
+        
+        link.classList.toggle("active", isActive);
+    });
+}
+// 页面滚动时更新
+window.addEventListener("scroll",updateActiveNav);
+// 窗口大小变化时重新判断
+window.addEventListener("resize",updateActiveNav);
+// 页面初始化时判断一次
+updateActiveNav();
+
+
+
+// 这一段遍历我们最开始获取的所有项目卡片。
+// 每遍历到一张卡片告诉观察器：“请开始观察这个元素。”
+//作用应在回调函数之前
+
 
 //id：通常用来唯一定位一个元素。
 //class：通常用来标记一组具有相同特征的元素。

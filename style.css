@@ -1,201 +1,210 @@
-body{
+
+/* ========================================
+   1. 页面基础样式
+======================================== */
+
+body {
     background-color: #f0f4f8;
     color: #243047;
     font-family: Arial, sans-serif;
     margin: 40px;
-    
+
+    /* 动态渐变背景 */
+    background-image: linear-gradient(
+        -45deg,
+        #dbeafe,
+        #ede9fe,
+        #e0f2fe,
+        #ccfbf1
+    );
+    background-size: 400% 400%;
+    animation: gradient-flow 8s ease infinite;
 }
-.card{
+
+.card {
     background-color: white;
     padding: 24px;
     border-radius: 12px;
     max-width: 700px;
     margin: 30px auto;
 }
-.card h1{
+
+.card h1 {
     margin-top: 0;
 }
-.profile{
+
+/* ========================================
+   2. 个人介绍与导航栏
+======================================== */
+
+.profile {
     display: flex;
     align-items: center;
     gap: 24px;
 }
-.profile h2{
+
+.profile h2 {
     margin-bottom: 4px;
 }
-.profile p{
+
+.profile p {
     margin-top: 0;
 }
-nav{
-    display:flex;
-    gap: 10px;
-    margin-bottom: 24px;
+
+.profile img {
+    animation: avatar-float 3s ease-in-out infinite;
 }
-nav a{
+
+nav {
+    display: flex;
+    align-items:center;
+    flex-wrap: wrap;/*空间不够时，导航链接可以换行*/
+    gap: 10px;
+
+    position: sticky;
+    top:0; /*导航栏贴住视口顶部*/
+    z-index: 100;/*提高导航栏的层叠顺序，避免被其他普通元素遮挡*/
+
+    padding: 14px 18px;
+    margin-bottom: 24px;
+    border-radius: 14px;
+    
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+}
+
+/*深色模式*/
+body.dark-mode nav{
+    background: rgba(15, 23, 42, 0.78);
+    border-color: rgba(148, 163, 184, 0.25);
+}
+
+nav a {
     color: #243047;
     text-decoration: none;
     font-weight: bold;
+    transition: color 0.2s ease;
 }
-.project-card{
-    position: relative;
-    overflow: hidden;
-
-    background: rgba(255,255,255,0.28);
-    border:1px solid rgba(255,255,255,0.75);
-    border-radius: 16px;
-
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-
-    box-shadow: 0 8px 30px rgba(31, 38, 135, 0.08);
-
-    padding: 20px;
-    margin-top: 16px;
-
-    transition: 
-        transform 0.3s ease, 
-        box-shadow 0.3s ease,
-        border-color 0.3s ease,
-        background-color 0.3s ease;
-    
-}
-
-@media (max-width:600px) {
-    .profile{
-        flex-direction: column;
-        align-items: flex-start;
-    }    
-    .card{
-        padding:16px;
-    }
-}
-body.dark-mode{
-    background-color: #111827;
-    color: #f3f4f6;
-}
-body.dark-mode .card{
-    background-color: #1f2937;
-}
-body.dark-mode nav a{
-    color:#f3f4f6;
-}
-body.dark-mode .project-card{
-    background: rgba(15,23,42,0.38);
-    border-color: rgba(148,163,184,0.30);
-    box-shadow: 0 8px 30px rgba(0,0,0,0.18);
-    
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-}
-
-
 
 nav a:hover {
     color: #2563eb;
 }
 
-button{
-    padding: 10px 16px; /* 上、下为 10px；左、右为 16px */
-    /* padding: 10px 16px 20px;	上 10px；左、右 16px；下 20px*/
-    /* padding: 10px 16px 20px 24px;	上 10px；右 16px；下 20px；左 24px*/
-    border:none;
+/* 当前浏览区域对应的导航链接 .active 是我们将通过 JavaScript 控制的当前选中状态*/
+nav a.active{
+    color:#6366f1;
+    position:relative;
+}
+
+/* 当前链接下方的短横线 ::after:在这个链接的内容之后，创建一个 CSS 生成的伪元素。*/
+nav a.active::after{
+    content:"";/*在这个链接的内容之后，创建一个 CSS 生成的伪元素。*/
+    position: absolute;/*让伪元素脱离正常文档流，可以通过 left、right、top、bottom 等属性定位*/
+    left:0;
+    right:0;
+    bottom:-6px;
+
+    height: 2px;/*高度为 2px、背景为蓝紫色的细长矩形，看起来就是横线。*/
+    border-radius: 2px;
+    background: #6366f1;
+}
+
+/*深色模式*/
+body.dark-mode nav a.active{
+    color: #a5b4fc;
+}
+
+body.dark-mode nav a.active::after{
+    background: #a5b4fc;
+}
+/* ========================================
+   3. 按钮
+======================================== */
+
+button {
+    padding: 10px 16px;
+    border: none;
     border-radius: 8px;
     background-color: #2563eb;
     color: white;
-    cursor:pointer;
-    transition: background-color 0.2s ease;/*背景颜色变化时执行过渡效果；变化开始时较慢，中间较快，结束时再逐渐放慢*/
+    cursor: pointer;
+    transition: background-color 0.2s ease;
 }
 
-button:hover{
+button:hover {
     background-color: #1d4ed8;
 }
 
+/* ========================================
+   4. 项目卡片：玻璃效果、滚动显现与悬停
+======================================== */
 
+.project-card {
+    /* 卡片的基础外观 */
+    position: relative;
+    overflow: hidden;
+    padding: 20px;
+    margin-top: 16px;
+    border-radius: 16px;
 
-.project-card:hover{
-    transform: translateY(-8px);/*让卡片沿垂直方向向上移动 4px。负值表示向上 */
-    border-color: rgba(96,165,250,0.95);
-    box-shadow: 
-        0 16px 40px rgba(59,130,246,0,20),/*表示黑色的阴影颜色，透明度为 0.08*/
-        0 0 24px rgba(96,165,250,0.20);
+    background: rgba(255, 255, 255, 0.28);
+    border: 1px solid rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+
+    box-shadow: 0 8px 30px rgba(31, 38, 135, 0.08);
+
+    /* 滚动显现的初始状态 */
+    opacity: 0;
+    translate: 0 30px;
+
+    /* 只让透明度和位置跟随卡片顺序延迟 */
+    --reveal-delay: 0s;
+
+    transition:
+        opacity 0.7s ease,
+        translate 0.7s ease,
+        transform 0.3s ease,
+        box-shadow 0.3s ease,
+        border-color 0.3s ease,
+        background-color 0.3s ease;
+
+    transition-delay:
+        var(--reveal-delay),
+        var(--reveal-delay),
+        0s,
+        0s,
+        0s,
+        0s;
 }
 
-/*深色模式下增强发光*/
-body.dark-mode .project-card{
-    background-color: rgba(30,41, 59, 0.52);
-    border-color: rgba(129,140,248,0.90);
-    box-shadow: 
-        0 16px 40px rgba(99,102,241,0.26),
-        0 0 28px rgba(129,140,248,0.22);
+/* 进入视口后显示 */
+.project-card.show {
+    opacity: 1;
+    translate: 0 0;/*translate: X右 Y下;*/
 }
 
-/*尊重用户减少动态效果偏好*/
-@media (prefers-reduced-motion: reduce){
-    .project-card{
-        transition:none;
-    }
-    .project-card:hover{
-        transform: none;
-    }
+/* 浅色模式：鼠标悬停 */
+.project-card:hover {
+    transform: translateY(-8px);
+
+    border-color: rgba(96, 165, 250, 0.95);
+
+    box-shadow:
+        0 16px 40px rgba(59, 130, 246, 0.20),
+        0 0 24px rgba(96, 165, 250, 0.20);
 }
 
+/* ========================================
+   5. 深色模式
+======================================== */
 
-/*头像的悬浮动画*/
-.profile img{
-    animation:avatar-float 3s ease-in-out infinite; 
-}
-/*
-animation：启动动画
-avatar-float：动画名称。
-3s：一次完整动画持续 3 秒。
-ease-in-out：开始和结束较慢，中间较快。
-infinite：无限循环。
-*/
+body.dark-mode {
+    background-color: #111827;
+    color: #f3f4f6;
 
-/*定义动画的关键帧*/
-@keyframes avatar-float{
-    0%, 100%{
-        transform: translateY(0);
-    }
-
-    50%{
-        transform: translateY(-8px);
-    }
-}
-/*
-@keyframes：定义动画过程
-- 0%：动画开始，头像位于原位。
-- 50%：动画进行到一半，头像向上移动 8px。
-- 100%：回到原位，随后重新循环。
-*/
-
-/* 尊重用户的减少动态效果偏好 */
-/*如果访客在操作系统中设置了减少动态效果，头像动画就会关闭，避免不必要的运动干扰。*/
-@media (prefers-reduced-motion: reduce){
-    .profile img{ /*选择 .profile 元素内部的 img 图片*/
-        animation:none;
-    }
-}
-
-/* ===== 动态渐变背景 ===== */
-
-/* 浅色模式 */
-/* linear-gradient():创建渐变*/
-body{
-    background-image: linear-gradient(
-        -45deg, /*渐变方向*/
-        #dbeafe,
-        #ede9fe,
-        #e0f2fe,
-        #ccfbf1
-    );
-
-    background-size: 400% 400%;
-    animation: gradient-flow 8s ease infinite;
-}
-
-/* 深色模式 */
-body.dark-mode{
     background-image: linear-gradient(
         -45deg,
         #0f172a,
@@ -203,38 +212,70 @@ body.dark-mode{
         #164e63,
         #1e1b4b
     );
-
 }
 
-/*定义渐变流动方式*/
-/*让背景循环移动，背景并不是在切换几张图片，而是浏览器持续改变渐变背景的位置*/
-@keyframes gradient-flow{
-    0%{
+body.dark-mode .card {
+    background-color: #1f2937;
+}
+
+body.dark-mode nav a {
+    color: #f3f4f6;
+}
+
+/* 深色模式下的普通卡片 */
+body.dark-mode .project-card {
+    background: rgba(15, 23, 42, 0.38);
+    border-color: rgba(148, 163, 184, 0.30);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.18);
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+}
+
+/* 深色模式：仅悬停时增强蓝紫色光晕 */
+body.dark-mode .project-card:hover {
+    border-color: rgba(129, 140, 248, 0.90);
+
+    box-shadow:
+        0 16px 40px rgba(99, 102, 241, 0.26),
+        0 0 28px rgba(129, 140, 248, 0.22);
+}
+
+/* 深色模式下的邮箱提示 */
+body.dark-mode .copy-toast {
+    background: rgba(226, 232, 240, 0.95);
+    color: #0f172a;
+}
+
+/* ========================================
+   6. 动态渐变背景动画
+======================================== */
+
+@keyframes gradient-flow {
+    0% {
         background-position: 0% 50%;
     }
 
-    50%{
+    50% {
         background-position: 100% 50%;
     }
 
-    100%{
+    100% {
         background-position: 0% 50%;
     }
 }
 
-/* 尊重系统的减少动态效果偏好*/
-@media(prefers-reduced-motion: reduce){
-    body{
-        animation: none;
-    }
-}
+/* ========================================
+   7. 鼠标跟随光晕
+======================================== */
 
-/* ===== 鼠标跟随光晕 ===== */
-.cursor-glow{
-    position:fixed;
+.cursor-glow {
+    position: fixed;
+    left: 0;
+    top: 0;
 
-    width:100px;
-    height:100px;
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
 
     background: radial-gradient(
@@ -245,25 +286,17 @@ body.dark-mode{
     );
 
     pointer-events: none;
-    /*保证光晕不会挡住按钮和链接的点击,忽略这个光晕元素作为鼠标事件目标的资格*/
     z-index: 0;
 
-    left:0;
-    top: 0;
-    transform: translate(-50%,-50%);
-    /*让光晕中心对准它的定位坐标*/
-    transition:left 0.01s ease-out, top 0.01s ease-out;
-    /*让光晕位置发生变化时有一点平滑感*/
+    /* 使光晕中心对准鼠标坐标 */
+    transform: translate(-50%, -50%);
 
-    /*left: 0：光晕定位盒子的左边缘起始位置为视口左边缘。
-    top: 0：光晕定位盒子的上边缘起始位置为视口上边缘。
-    transform: translate(-50%, -50%)：将光晕自身向左移动自身宽度的 50%，向上移动自身高度的 50%，让光晕的中心与定位坐标重合。
-    transition: left 0.12s ease-out, top 0.12s ease-out：当 left 或 top 发生变化时，让位置在 0.12 秒内平滑过渡。
-    */
+    transition:
+        left 0.01s ease-out,
+        top 0.01s ease-out;
 }
 
-/*深色模式：加强蓝紫色光晕 */
-body.dark-mode .cursor-glow{
+body.dark-mode .cursor-glow {
     background: radial-gradient(
         circle,
         rgba(96, 165, 250, 0.24) 0%,
@@ -272,83 +305,108 @@ body.dark-mode .cursor-glow{
     );
 }
 
-/* 触屏设备不显示鼠标跟随光晕*/
-@media (hover:none),(prefers-reduced-motion: reduce){
-    .cursor-glow{
-        display: none;
-    }
-}
-
-/*让主要内容显示在光晕上方*/
-nav,
+/* 主要内容显示在光晕上方 */
 #theme-toggle,
 .card,
 #skills,
 #projects,
 #contact,
 body > p,
-body > ul{
-    position:relative;
-    z-index:1;
+body > ul {
+    position: relative;
+    z-index: 1;
 }
 
-/* 邮箱复制按钮与提示框 */
-.copy-wrapper{
-    position:relative;
+/* ========================================
+   8. 邮箱复制提示框
+======================================== */
+
+.copy-wrapper {
+    position: relative;
     display: inline-block;
 }
 
-/*默认隐藏提示框*/
-.copy-toast{
-    position:absolute;
-    left:calc(100% + 12px);
-    top:50%;
+.copy-toast {
+    position: absolute;
+    left: calc(100% + 12px);
+    top: 50%;
 
-    transform:translateY(-50%) translateX(-6px);
+    transform: translateY(-50%) translateX(-6px);
 
     padding: 6px 10px;
     border-radius: 8px;
 
-    background: rgba(15,23,42,0.92);
+    background: rgba(15, 23, 42, 0.92);
     border: 1px solid rgba(255, 255, 255, 0.7);
-    color:white;
+    color: white;
     font-size: 13px;
-    white-space:nowrap;
+    white-space: nowrap;
 
-    opacity:0;
-    visibility:hidden;
-    pointer-events:none;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    z-index: 10;
 
-    transition: 
+    transition:
         opacity 0.2s ease,
         transform 0.2s ease,
         visibility 0.2s ease;
-
-    z-index: 10;
-
 }
 
-.copy-toast.show{
+.copy-toast.show {
     opacity: 1;
     visibility: visible;
     transform: translateY(-50%) translateX(0);
 }
 
-body.dark-mode .copy-toast{
-    background: rgba(226, 232, 240, 0.95);
-    color:#0f172a;
-}
+/* ========================================
+   9. 响应式布局
+======================================== */
 
-/*
-@media (max-width:600px){
-    .copy-toast{
-        left:0;
-        top:calc(100% + 8px);
-        transform: translateY(-4px);
+@media (max-width: 600px) {
+    body {
+        margin: 20px;
     }
 
-    .copy-toast.show{
-        transform:translateY(0);
+    .profile {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .card {
+        padding: 16px;
     }
 }
-*/
+
+/* ========================================
+   10. 尊重用户的减少动态效果偏好
+======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    body {
+        animation: none;
+    }
+
+    .profile img {
+        animation: none;
+    }
+
+    .project-card {
+        opacity: 1;
+        translate: none;
+        transition: none;
+    }
+
+    .project-card:hover {
+        transform: none;
+    }
+
+    .cursor-glow {
+        display: none;
+    }
+}
+
+/*当页面通过锚点链接滚动到某个位置时，使用平滑滚动，而不是瞬间跳转。*/
+html{
+    scroll-behavior: smooth;
+}
