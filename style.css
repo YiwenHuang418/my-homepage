@@ -55,6 +55,28 @@ body {
     animation: avatar-float 3s ease-in-out infinite;
 }
 
+/*首页项目入口*/
+.profile-link{
+    display: inline-block;
+    margin-top: 8px;
+
+    color: #4f46e5;
+    font-weight: bold;
+    text-decoration: none;
+
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+.profile-link:hover{
+    color:#2563eb;
+    transform: translateX(4px);
+}
+
+body.dark-mode .profile-link{
+    color: #a4b5fc;
+}
+
 nav {
     display: flex;
     align-items:center;
@@ -250,6 +272,14 @@ body.dark-mode .copy-toast {
 /* ========================================
    6. 动态渐变背景动画
 ======================================== */
+@keyframes avatar-float{
+    0%,100%{
+        transform: translateY(0);
+    }
+    50%{
+        transform: translateY(-8px);
+    }
+}
 
 @keyframes gradient-flow {
     0% {
@@ -409,4 +439,49 @@ body > ul {
 /*当页面通过锚点链接滚动到某个位置时，使用平滑滚动，而不是瞬间跳转。*/
 html{
     scroll-behavior: smooth;
+}
+
+/*项目日期与类型*/
+.project-meta{
+    color: #64748b;
+    font-size: 0.9rem;
+    margin-bottom: 12px;
+}
+
+body.dark-mode.project-meta{
+    color: #cbd5e1;
+}
+
+/*项目技术标签*/
+.project-tags{
+    display: flex; /*把这个元素变成 Flex 容器，它的直接子元素会按 Flex 布局排列。默认 flex-direction: row，也就是子元素从左到右排成一行。*/
+    flex-wrap: wrap;/*允许子元素换行*/
+    gap:8px;/*子元素之间距离*/
+    margin: 16px 0;/*容器外边距*/
+}
+
+.project-tags span{
+    padding: 5px 10px;
+    border-radius: 999px; /*胶囊标签写法*/
+
+    background: rgba(99, 102, 241, 0.10);
+    border: 1px solid rgba(99, 102, 241, 0.25);
+
+    color:#4338ca;
+    font-size:0.82rem;
+}
+
+body.dark-mode .project-tags span{
+    background: rgba(129, 140, 248, 0.15);
+    border-color: rgba(129, 140, 248, 0.35);
+    color: #c7d2fe;
+}
+
+/*项目详情中的小标题*/
+.project-details h4{
+    margin-bottom: 8px;
+}
+
+.project-details{
+    line-height:1.7;/*设置行高为字体大小的 1.7 倍*/
 }

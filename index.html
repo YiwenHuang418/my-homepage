@@ -16,59 +16,98 @@
     </nav>
     <button id="theme-toggle">切换深色模式</button>
     <div class="card">
-        <h1>你好，世界！</h1>
+        <h1>你好，我是一名计算机专业的学生。</h1>
         <div class="profile">
             <img src="images/avatar.png" alt="我的头像" width="150">
             <div>
                 <h2 id="about">关于我</h2>
-                <p>我是一名计算机专业的学生，正在学习python、人工智能与网络安全。</p>
+                <p>
+                    我关注人工智能与智能体、网络安全、算法与编程，
+                    喜欢通过实际项目理解技术原理，并将想法转化为可运行的程序。
+                </p>
+                <p>
+                    目前，我正在持续提升软件开发能力，
+                    并希望逐步探索人工智能与网络安全的结合。
+                </p>
+
+                <a class = "profile-link" href="#projects">查看我的项目 ↓</a>
             </div>
         </div>
     </div>
     <h2 id="skills">我的学习方向</h2>
     <ul> 
-        <li>Python 编程</li>
+        <li>Python 与 C++ 编程</li>
         <li>人工智能与Agent</li>
         <li>网络安全</li>
     </ul>
     <section id="projects">
-        <h2>My Projects</h2>
+        <h2>我的项目</h2>
         
         <div class="project-card">
-            <h3>个人主页</h3>
-            <p>使用HTML和CSS构建的第一个个人网站。</p>
-
+            <h3>IntoTheBreach-CPP</h3>
+            <p class="project-meta">个人项目 · 2025.05 - 2025.06</p>
+            <p>
+                基于 C++11 独立开发的回合制策略游戏，
+                构建 8×8 网格战场，实现单位操控、地形交互、
+                回合制战斗与敌方 AI 决策。
+            </p>
+            <div class="project-tags">
+                <span>C++11</span>
+                <span>STL</span>
+                <span>面对对象设计</span>
+                <span>AI 决策</span>
+            </div>
             <button class = "detail-toggle">查看项目详情</button>
 
             <div class="project-details" hidden>
-                <p>项目功能：</p>
+                <h4>核心实现</h4>
                 <ul>
-                    <li>个人介绍和学习方向展示</li>
-                    <li>页面内部导航</li>
-                    <li>响应式布局</li>
-                    <li>深色模式切换</li>
+                    <li>设计 5 种功能不同的战斗单位与 4 种互动地形。</li>
+                    <li>实现近战、远程攻击、击退等战斗机制。</li>
+                    <li>构建回合制引擎，使敌方单位能够依据算法自主移动与攻击。</li>
+                    <li>采用 Unit、Field、Engine 等类组织游戏逻辑，形成模块化架构。</li>
                 </ul>
-                <p>技术栈：HTML、CSS、JavaScript.</p>
+
+                <h4>项目收获</h4>
+                <ul>
+                    <li>理解如何将复杂的游戏规则拆分为清晰的程序逻辑。</li>
+                    <li>加深对面向对象设计、指针使用与调试方法的理解。</li>
+                    <li>通过测试与排错培养严谨的工程习惯。</li>
+                </ul>
             </div>
-            <p>学习内容：网页结构/样式设计/页面导航。</p>
         </div>
         <div class="project-card">
-            <h3>AI智能体学习实践</h3>
-            <p>探索使用大语言模型构建能够理解指令、调用工具并完成任务的应用</p>
-
+            <h3>battle_of_slimes 2</h3>
+            <p class="project-meta">个人项目 · 2025.06 - 2025.07</p>
+            <p>
+                基于 C++11 与 Easy2D 开发的回合制策略游戏，
+                实现史莱姆角色系统、战斗引擎、天气与状态效果，
+                并支持 AI 对战和控制台、图形界面两种模式。
+            </p>
+            <div class="project-tags">
+                <span>C++11</span>
+                <span>Easy2D</span>
+                <span>面向对象设计</span>
+                <span>游戏 AI</span>
+            </div>
             <button class = "detail-toggle">查看项目详情</button>
 
             <div class="project-details" hidden>
-                <p>计划学习内容：</p>
+                <h4>核心实现</h4>
                 <ul>
-                    <li>理解大语言模型API的基本调用</li>
-                    <li>学习工具调用与任务流程设计</li>
-                    <li>尝试开发一个简单的个人助手</li>
+                    <li>设计 5 种史莱姆角色，实现属性克制与技能机制。</li>
+                    <li>开发回合制战斗引擎，支持天气系统和状态效果。</li>
+                    <li>构建 AI 决策系统，根据战斗情况调整策略。</li>
+                    <li>实现控制台与图形界面双模式，丰富交互体验。</li>
                 </ul>
-                <p>计划技术栈：python、JavaScript、LLM API.</p>
-                <p>状态：学习计划中。</p>
-            </div>
 
+                <h4>项目收获</h4>
+                <ul>
+                    <li>提升面向对象设计与模块化架构能力。</li>
+                    <li>积累复杂系统调试和性能优化经验。</li>
+                    <li>加深对游戏规则建模和工程实践的理解。</li>
+                </ul>
+            </div>
         </div>
         <section id="contact">
             <h2>联系我</h2>

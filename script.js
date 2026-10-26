@@ -132,36 +132,38 @@ projectCards.forEach(function(card){//主动获取所有项目卡片
 });
 
 /* ===== 当前区域导航高亮 ===== */
+/*返回NodeList；[href^="#"]：并且要求它的 href 属性是以 # 开头的。^=以指定内容开头*/
 const navLinks = document.querySelectorAll('nav a[href^="#"]');
 
-const sections = Array.from(navLinks)
-    .map(function (link) {
-        return document.querySelector(link.getAttribute("href"));
+
+const sections = Array.from(navLinks) /*转换为真正数组*/
+    .map(function (link) {/*map() 的作用是：把数组中的每一个元素转换成另一个元素，最后得到一个新的数组。*/
+        return document.querySelector(link.getAttribute("href"));/*把#about转换成id="about" 的元素*/
     })
-    .filter(function (section) {
+    .filter(function (section) { /*如果导航栏里写了不存在的部分，返回null*/
         return section !== null;
     });
 
 function updateActiveNav(){
-    //以视口顶部往下约35%的位置作为判断线
-    const marker = window.innerHeight * 0.35;
+    //以视口顶部往下约35%的位置作为判断线.window.innerHeight,表示当前浏览器视口的高度。
+    const marker = window.innerHeight * 0.35;//当某个区域的顶部越过这条线以后，就认为用户已经浏览到这个区域。
 
-    let currentSection = sections[0];
+    let currentSection = sections[0];//let表示可修改
 
     sections.forEach(function(section){
-        const rect = section.getBoundingClientRect();
+        const rect = section.getBoundingClientRect();//返回这个 HTML 元素当前相对于浏览器视口的位置和尺寸
 
-        if(rect.top <= marker){
+        if(rect.top <= marker){//遍历后最后部分顶部距离浏览器顶部雄安与marker
             currentSection = section;
         }
     });
 
     //只让当前区域对应导航链接拥有active类
     navLinks.forEach( function(link){
-        const isActive = 
+        const isActive = //返回bool
             link.getAttribute("href") === "#" + currentSection.id;
         
-        link.classList.toggle("active", isActive);
+        link.classList.toggle("active", isActive);//isActive为true时添加，反之删除
     });
 }
 // 页面滚动时更新
