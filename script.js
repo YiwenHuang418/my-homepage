@@ -109,6 +109,22 @@ if(cursorGlow){
     })
 }
 
+const shineCards = document.querySelectorAll(".project-card");
+
+shineCards.forEach(function(card){
+    card.addEventListener("pointermove", function(event){
+        //获取卡片在浏览器视口中的位置
+        const rect = card.getBoundingClientRect();
+
+        //计算鼠标在卡片内部的坐标
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+
+        card.style.setProperty("--mouse-x", x + "px");
+        card.style.setProperty("--mouse-y", y + "px");
+    })
+})
+
 /* =====滚动显现动画 ===== */
 const projectCards = document.querySelectorAll(".project-card");
 
@@ -172,6 +188,156 @@ window.addEventListener("scroll",updateActiveNav);
 window.addEventListener("resize",updateActiveNav);
 // 页面初始化时判断一次
 updateActiveNav();
+
+/* ===== 漂浮粒子背景：第一步 ===== */
+
+const particleCanvas = document.getElementById("particle-canvas");
+const particleContext = particleCanvas.getContext("2d");
+
+function resizeParticleCanvas(){
+    particleCanvas.width = window.innerWidth;
+    particleCanvas.height = window.innerHeight;
+}
+
+resizeParticleCanvas();
+
+window.addEventListener("resize",resizeParticleCanvas);
+//记录鼠标位置
+const mouse = {
+    x : null,
+    y : null,
+    radius: 120
+};
+
+window.addEventListener("pointermove",function(event){
+    mouse.x = event.clientX;
+    mouse.y = event.clientY;
+});
+
+document.addEventListener("pointerleave",function(){
+    mouse.x = null;
+    mouse.y = null;
+})
+
+
+
+//暂时创建50个静态粒子
+const particles = [];
+
+for(let i = 0; i < 50; i++){
+    particles.push({
+        x: Math.random() * particleCanvas.width,
+        y: Math.random() * particleCanvas.height,
+        radius: Math.random() * 2 + 1,
+
+        //每帧移动速度
+        vx: (Math.random() - 0.5) * 0.5,
+        vy: (Math.random() - 0.5) * 0.5
+    });
+}
+
+function getDistance(x1, y1, x2, y2){
+    const dx = x1 - x2;
+    const dy = y1 - y2;
+
+    return Math.sqrt(dx * dx + dy * dy);
+}
+
+//绘制所有粒子
+function drawParticles(){
+    particleContext.clearRect(
+        0,
+        0,
+        particleCanvas.width,
+        particleCanvas.height
+    );
+
+    particles.forEach(function(particle){
+        //默认速度
+        let moveX = particle.vx;
+        let moveY = particle.vy;
+
+        //如果鼠标存在，计算鼠标的排斥作用
+        if(mouse.x !== null && mouse.y !== null){
+            const dx = particle.x - mouse.x;
+            const dy = particle.y - mouse.y;
+
+            const distance = getDistance(
+                particle.x,
+                particle.y,
+                mouse.x,
+                mouse.y
+            );
+
+            if(distance < mouse.radius && distance > 0){
+                //距离越近，排斥约明显
+                const force = (mouse.radius - distance) / mouse.radius;
+
+                moveX += (dx / distance) * force * 1.2; //dx / distance 和 dy / distance 表示从鼠标指向粒子的单位方向向量。我们沿着这个方向给粒子增加一点速度，就能让它远离鼠标。
+                moveY += (dy / distance) * force * 1.2
+            }
+        }
+
+        particle.x += moveX;
+        particle.y += moveY;
+
+        //如果超出画布，从另一侧出现
+        if(particle.x < 0) particle.x = particleCanvas.width;
+        if(particle.x > particleCanvas.width) particle.x = 0;
+        if(particle.y < 0) particle.y = particleCanvas.height;
+        if(particle.y > particleCanvas.height) particle.y = 0;
+        
+        particleContext.beginPath();
+        particleContext.arc(
+            particle.x,
+            particle.y,
+            particle.radius,
+            0,
+            Math.PI * 2
+        );
+
+        particleContext.fillStyle = "rgba(129, 140, 248, 0.65)";
+        particleContext.fill();
+    });
+
+    //绘制距离较近的粒子之间的连接线
+    for(let i = 0; i < particles.length; i++)
+    {
+        for(let j = i + 1; j < particles.length; j++){
+            const p1 = particles[i];
+            const p2 = particles[j];
+        
+            const distance = getDistance(
+                p1.x,p1.y,
+                p2.x,p2.y
+            );
+
+            if(distance < 120){
+                const opacity = (1 - distance / 120) * 0.25;
+
+                particleContext.beginPath();
+                particleContext.moveTo(p1.x,p1.y);
+                particleContext.lineTo(p2.x,p2.y);
+
+                particleContext.strokeStyle = 
+                    `rgba(129, 140, 248, ${opacity})`;
+
+                    particleContext.lineWidth = 1;
+                    particleContext.stroke();
+            }
+        }
+    }
+
+
+
+
+    //请求浏览器下一帧再调用这个函数
+    requestAnimationFrame(drawParticles);
+
+}
+
+drawParticles();
+
 
 
 
