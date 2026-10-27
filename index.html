@@ -9,6 +9,68 @@
 <body>
     <div class="cursor-glow" aria-hidden="true"></div> 
     <canvas id = "particle-canvas" aria-hidden="true"></canvas>
+    <!-- 隐藏的菜单互动弹窗 -->
+    <div
+        id="love-dialog"
+        class="love-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="love-dialog-title"
+        hidden
+    >
+        <div class="love-dialog-panel">
+            <div class="win-titlebar">
+                <span class="win-title-text">System Error</span>
+                <span class="win-close-visual" aria-hidden="true">×</span>
+            </div>
+
+            <div class="win-dialog-body">
+                <div class="win-error-icon" aira-hidden="true">✖</div>
+                <div class="win-dialog-content">
+                    <h2 id="love-dialog-title">检测到一个情感错误</h2>
+                    <p class="win-dialog-message">
+                        你觉得这个主页怎么样？
+                    </p>
+                    <div class="love-options">
+                        <button type="button" class="love-option" data-choice="like">
+                            挺喜欢的 ♥
+                        </button>
+
+                        <button type="button" class="love-option" data-choice="okay">
+                            还可以吧
+                        </button>
+
+                        <button type="button" class="love-option" data-choice="nope">
+                            不太喜欢
+                        </button>
+                    </div>
+
+                    <p id="love-feedback" class="love-feedback" aria-live="polite"></p>
+                </div>
+            </div>
+            
+            
+        </div>    
+    </div>
+    <!-- BUG结局的窗口容器 -->
+    <div id="bug-chaos" class="bug-chaos" hidden>
+        <!-- 新增：彩色故障画面 -->
+        <canvas id="bug-static-canvas" aria-hidden="true"></canvas>
+
+        <!-- 保留：报错窗口，显示在雪花屏上方 -->
+        <div id="bug-window-container"></div>
+
+        <div id="bug-recovery" class="bug-recovery" hidden>
+            <div class="bug-recovery-panel">
+                <h2>CRITICAL ERROR</h2>
+                <p>系统已停止响应</p>
+                <p>是否尝试恢复正常运行并承认个人主页做的不错：）</p>
+                <button id="bug-recovery-button" type="button">
+                    我承认，并尝试恢复系统
+                </button>
+            </div>
+        </div>
+    </div>
     <nav>
         <a href="#about">关于我</a>
         <a href="#skills">我的学习方向</a>
@@ -37,8 +99,19 @@
                     目前，我正在持续提升软件开发能力，
                     并希望逐步探索人工智能与网络安全的结合。
                 </p>
-
+                <!-- 隐藏菜单入口 -->
+                <button
+                    id = "love-trigger"
+                    class = "love-trigger"
+                    type = "button"
+                    aria-label="打开一个隐藏的小彩蛋"
+                    title="一个小彩蛋"
+                >
+                    <span sria-hidden="true">♥</span>
+                    <span class="love-trigger-text">一个小彩蛋</span>    
+                </button>
                 <a class = "profile-link" href="#projects">查看我的项目 ↓</a>
+                
             </div>
         </div>
     </div>

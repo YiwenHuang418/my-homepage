@@ -361,6 +361,415 @@ body.dark-mode .copy-toast {
     color: #0f172a;
 }
 
+/*彩蛋*/
+body.dark-mode .love-trigger{
+    color: #f9a8d4;
+}
+
+body.dark-mode .love-trigger:hover,
+body.dark-mode .love-trigger:focus-visible{
+    background: rgba(236, 72, 153, 0.12);
+    border-color: rgba(249, 168, 212, 0.3);
+}
+
+/* ===== 隐藏彩蛋入口 ===== */
+.love-trigger{
+    display:inline-flex;
+    align-items: center;/*交叉轴居中*/
+    justify-content: center;/*主轴居中*/
+    gap: 8px;
+
+    position: relative;
+    margin-top: 12px;
+    padding: 8px;
+
+    border: 1px solid transparent;
+    border-radius: 999px;
+    background: transparent;
+
+    color: #ec4899;
+    font-size: 22px;
+    line-height: 1;
+    
+    cursor: pointer;
+    overflow: hidden;
+
+    transition: 
+        background-color 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+/*文字默认隐藏*/
+.love-trigger-text{
+    max-width: 0;
+    opacity: 0;
+    overflow: hidden;
+    white-space: nowrap;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    transition: 
+        max-width 0.3s ease,
+        opacity 0.2s ease;
+}
+
+/*鼠标悬停或键盘聚焦时显示文字*/
+.love-trigger:hover .love-trigger-text,
+.love-trigger:focus-visible .love-trigger-text{
+    max-width: 100px;
+    opacity: 1;
+}
+
+/*悬停时显示轻微玻璃光晕*/
+.love-trigger:hover,
+.love-trigger:focus-visible{
+    background: rgba(236, 72, 153, 0.10);
+    border-color: rgba(236, 72, 153, 0.25);
+    box-shadow: 0 0 20px rgba(236, 72, 153, 0.18);
+}
+
+/* ===== 隐藏彩蛋：古早系统故障弹窗 ===== */
+
+.love-dialog{
+    position: fixed;
+    inset: 0;
+    z-index: 3000;
+
+    display: grid;
+    place-items: center;
+    padding: 24px;
+
+    background:rgba(0,0,0,0.35);
+}
+
+.love-dialog-panel{
+    width: min(92vw, 460px);
+    background: #e6e6e6;
+    border: 1px solid #7f7f7f;
+    box-shadow: 
+        0 18px 40px rgba(0,0,0,0.28),
+        inset 1px 1px 0 #ffffff,
+        inset -1px -1px 0 #b8b8b8;
+    
+    color: #111827;
+    font-family: "Segoe UI", Tahoma, sans-serif;
+}
+
+.win-titlebar{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 7px 10px;
+    border-bottom: 1px solid #9aa7b8;
+
+    background: linear-gradient(
+        to bottom,
+        #eef5ff,
+        #d9e7f8
+    );
+}
+
+.win-title-text{
+    font-size: 13px;
+    font-weight:600;
+    color: #1f2937;
+
+}
+
+.win-close-visual{
+    display: inline-grid;
+    place-items: center;
+
+    width: 22px;
+    height: 22px;
+
+    border: 1px solid #933333;
+    border-radius: 2px;
+    background:linear-gradient(
+        to bottom,
+        #e77a7a,
+        #c94d4d
+    );
+
+    color: white;
+    font-size: 16px;
+    line-height: 1;
+    font-weight: 700;
+
+    box-shadow: 
+        inset 1px 1px 0 rgba(255,255,255,0.3),
+        inset -1px -1px 0 rgba(0, 0, 0, 0.15);
+}
+
+.win-dialog-body{
+    display: flex;
+    align-items: flex-start;
+    gap:16px;
+
+    padding: 22px 20px 18px;
+}
+
+.win-error-icon{
+    flex-shrink:0;
+
+    width: 34px;
+    height: 34px;
+
+    display: grid;
+    place-items: center;
+
+    border: 1px solid #b8b8b8;
+    background: #ffffff;
+
+    color: #d92d20;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.win-dialog-content h2 {
+    margin: 0 0 10px;
+    font-size: 20px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.win-dialog-message {
+    margin: 0 0 18px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #1f2937;
+}
+
+.love-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.love-option {
+    padding: 7px 14px;
+    border: 1px solid #8c8c8c;
+    border-radius: 3px;
+
+    background: linear-gradient(
+        to bottom,
+        #fcfcfc,
+        #dcdcdc
+    );
+
+    color: #111827;
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    box-shadow:
+        inset 1px 1px 0 #ffffff,
+        inset -1px -1px 0 #c3c3c3;
+
+    transition:
+        transform 0.12s ease,
+        background 0.12s ease;
+}
+
+.love-option:hover {
+    background: linear-gradient(
+        to bottom,
+        #ffffff,
+        #cfcfcf
+    );
+}
+
+.love-option:active {
+    transform: translateY(1px);
+}
+
+.love-option:focus-visible {
+    outline: 2px solid #2563eb;
+    outline-offset: 2px;
+}
+
+.love-feedback {
+    min-height: 24px;
+    margin-top: 14px;
+    font-size: 13px;
+    color: #374151;
+}
+
+/* 让 hidden 继续生效 */
+.love-dialog[hidden] {
+    display: none;
+}
+
+
+/* ===== BUG 结局：失控的旧式系统弹窗 ===== */
+
+.bug-chaos {
+    position: fixed;
+    inset: 0;
+    z-index: 5000;
+
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.25);
+
+    animation: bug-screen-glitch 0.3s steps(2, end) 3;
+}
+
+.bug-chaos[hidden] {
+    display: none;
+}
+
+/* ===== 彩色信号故障屏 ===== */
+
+#bug-static-canvas {
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    z-index: 1;
+    pointer-events: none;
+}
+
+#bug-window-container {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+
+    z-index: 2;
+    pointer-events: none;
+}
+
+.bug-window {
+    position: absolute;
+    width: min(300px, calc(100vw - 24px));
+    pointer-events: auto;
+
+    background: #e6e6e6;
+    color: #111827;
+    border: 1px solid #777;
+    box-shadow:
+        3px 3px 0 rgba(0, 0, 0, 0.25),
+        inset 1px 1px 0 #fff;
+
+    font-family: "Segoe UI", Tahoma, sans-serif;
+    animation: bug-window-appear 0.18s ease-out both;
+}
+
+.bug-window-titlebar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 5px 7px;
+    background: linear-gradient(to bottom, #eef5ff, #cbdcf2);
+    border-bottom: 1px solid #9aa7b8;
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.bug-window-x {
+    display: grid;
+    place-items: center;
+
+    width: 18px;
+    height: 18px;
+
+    background: linear-gradient(to bottom, #e77a7a, #c94d4d);
+    border: 1px solid #933333;
+    color: white;
+    font-weight: bold;
+}
+
+.bug-window-body {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 12px;
+
+    font-size: 13px;
+}
+
+.bug-window-error {
+    flex-shrink: 0;
+    color: #d92d20;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* ===== BUG 结局：系统恢复界面 ===== */
+
+.bug-recovery {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+
+    display: grid;
+    place-items: center;
+    padding: 20px;
+
+    background: rgba(0, 0, 0, 0.35);
+}
+
+.bug-recovery[hidden] {
+    display: none;
+}
+
+.bug-recovery-panel {
+    width: min(100%, 360px);
+    padding: 22px;
+
+    background: #e6e6e6;
+    color: #111827;
+    border: 1px solid #777;
+
+    box-shadow:
+        0 12px 36px rgba(0, 0, 0, 0.4),
+        inset 1px 1px 0 #fff;
+
+    font-family: "Segoe UI", Tahoma, sans-serif;
+    text-align: center;
+}
+
+.bug-recovery-panel h2 {
+    margin: 0 0 16px;
+    color: #c62828;
+    font-family: Consolas, monospace;
+    font-size: 21px;
+}
+
+.bug-recovery-panel p {
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+#bug-recovery-button {
+    margin-top: 12px;
+    border: 1px solid #777;
+    border-radius: 3px;
+
+    background: linear-gradient(to bottom, #fff, #d5d5d5);
+    color: #111827;
+
+    font-family: "Segoe UI", Tahoma, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+#bug-recovery-button:hover {
+    background: linear-gradient(to bottom, #fff, #c5c5c5);
+}
+
+#bug-recovery-button:focus-visible {
+    outline: 2px solid #2563eb;
+    outline-offset: 3px;
+}
+
 /* ========================================
    6. 动态渐变背景动画
 ======================================== */
@@ -384,6 +793,49 @@ body.dark-mode .copy-toast {
 
     100% {
         background-position: 0% 50%;
+    }
+}
+
+@keyframes bug-window-appear {
+    0% {
+        opacity: 0;
+        transform: scale(0.85) translate(8px, 6px);
+    }
+
+    65% {
+        opacity: 1;
+        transform: scale(1.02) translate(-2px, -1px);
+    }
+
+    82% {
+        transform: scale(0.99) translate(2px, 1px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1) translate(0, 0);
+    }
+}
+
+@keyframes bug-screen-glitch {
+    0%, 100% {
+        transform: translate(0, 0);
+        filter: none;
+    }
+
+    25% {
+        transform: translate(2px, 0);
+        filter: contrast(1.1);
+    }
+
+    50% {
+        transform: translate(-2px, 1px);
+        filter: contrast(1.2);
+    }
+
+    75% {
+        transform: translate(1px, -1px);
+        filter: none;
     }
 }
 
@@ -509,6 +961,17 @@ body > ul {
 
     .project-card::before{
         transition:none;
+    }
+}
+
+@media (max-width: 560px) {
+    .win-dialog-body {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .love-dialog-panel {
+        width: min(94vw, 420px);
     }
 }
 
@@ -645,4 +1108,25 @@ body.dark-mode .project-link:hover{
     .project-link:hover{
         transform: none;
     }
+
+    .love-trigger,
+    .love-trigger-text{
+        transition: none;
+    }
+    .love-option {
+        transition: none;
+    }
+
+    .bug-window {
+        animation: none;
+    }
+
+    .bug-chaos {
+        animation: none;
+    }
+
+    .bug-window {
+        animation: none;
+    }
 }
+

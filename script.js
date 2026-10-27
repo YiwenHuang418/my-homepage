@@ -338,7 +338,417 @@ function drawParticles(){
 
 drawParticles();
 
+/* ===== 隐藏彩蛋：打开与关闭弹窗 ===== */
+const loveTrigger = document.getElementById("love-trigger");
+const loveDialog = document.getElementById("love-dialog");
+const loveClose = document.getElementById("love-close");
 
+//点击心形，打开弹窗
+loveTrigger.addEventListener("click",function(){
+    loveDialog.hidden = false;
+})
+/*
+loveClose.addEventListener("click",function(){
+    loveDialog.hidden = true;
+})
+
+
+// 点击弹窗外部区域，关闭弹窗
+loveDialog.addEventListener("click", function (event) {
+    if (event.target === loveDialog) {
+        loveDialog.hidden = true;
+    }
+});
+
+document.addEventListener("keydown", function(event){
+    if(event.key === "Escape" && !loveDialog.hidden){
+        loveDialog.hidden = true;
+    }
+})
+*/
+
+
+/* ===== 隐藏彩蛋：剧情分支 ===== */
+
+const loveOptions = document.querySelectorAll(".love-option");
+const loveTitle = document.getElementById("love-dialog-title");
+const loveMessage = document.querySelector(".win-dialog-message");
+const loveFeedback = document.getElementById("love-feedback");
+
+loveOptions.forEach(function (option) {
+    option.addEventListener("click", function () {
+        const choice = option.dataset.choice;
+
+        // 根据访客选择，进入不同剧情
+        if (choice === "like") {
+            loveTitle.textContent = "好感度 +100";
+            loveMessage.textContent =
+                "检测到正向反馈！感谢喜欢这个小小的个人主页。";
+            loveFeedback.textContent =
+                "SYSTEM MESSAGE: 今天的代码运行得格外顺利 ♥";
+
+            finishNormalEnding();
+        }
+
+        else if (choice === "okay") {
+            loveTitle.textContent = "收到中性反馈";
+            loveMessage.textContent =
+                "正在记录你的建议……希望下次更新能让你眼前一亮。";
+            loveFeedback.textContent =
+                "请选择：继续探索主页，或期待下一次版本更新。";
+            finishNormalEnding();
+        }
+
+        else if (choice === "nope") {
+            loveTitle.textContent = "警告：好感度系统异常";
+            loveMessage.textContent =
+                "检测到无法处理的负面反馈。正在尝试恢复系统……";
+            loveFeedback.textContent =
+                "ERROR CODE: LOVE_NOT_FOUND";
+
+            startBugChaos();
+
+        }
+
+        // 选过之后，暂时隐藏三个选项，防止重复触发
+        loveOptions.forEach(function (item) {
+            item.hidden = true;
+        });
+    });
+});
+
+
+function finishNormalEnding() {
+    // 创建一个返回主页按钮
+    const returnButton = document.createElement("button");
+
+    returnButton.type = "button";
+    returnButton.className = "love-option";
+    returnButton.textContent = "返回主页";
+
+    loveFeedback.insertAdjacentElement("afterend", returnButton);
+
+    returnButton.addEventListener("click", function () {
+        loveDialog.hidden = true;
+
+        // 恢复弹窗初始状态，方便再次体验彩蛋
+        loveOptions.forEach(function (item) {
+            item.hidden = false;
+        });
+
+        returnButton.remove();
+
+        loveTitle.textContent = "检测到一个情感错误";
+        loveMessage.textContent = "你觉得这个主页怎么样？";
+        loveFeedback.textContent = "";
+    });
+}
+
+
+
+/* ===== BUG 结局：生成重复报错窗口 ===== */
+
+
+let bugTimer = null;
+
+function startBugChaos() {
+    const bugChaos = document.getElementById("bug-chaos");
+    const container = document.getElementById("bug-window-container");
+
+    // 防止重复启动
+    if (bugTimer !== null) {
+        return;
+    }
+
+    bugChaos.hidden = false;
+    container.replaceChildren();
+    startGlitchScreen();
+
+    let count = 0;
+    const maxWindows = 100;
+
+    function createBugWindow() {
+        // 达到数量上限，停止生成
+        if (count >= maxWindows) {
+            clearInterval(bugTimer);
+            bugTimer = null;
+            return;
+        }
+
+        const win = document.createElement("div");
+        win.className = "bug-window";
+
+        // 随机位置，避免窗口完全堆在一起
+        const maxX = Math.max(0, window.innerWidth - 320);
+        const maxY = Math.max(0, window.innerHeight - 120);
+
+        win.style.left = Math.random() * maxX + "px";
+        win.style.top = Math.random() * maxY + "px";
+
+        // 标题栏
+        const titlebar = document.createElement("div");
+        titlebar.className = "bug-window-titlebar";
+
+        const title = document.createElement("span");
+        title.textContent = "System Error";
+
+        const closeIcon = document.createElement("span");
+        closeIcon.className = "bug-window-x";
+        closeIcon.textContent = "×";
+        closeIcon.setAttribute("aria-hidden", "true");
+
+        titlebar.append(title, closeIcon);
+
+        // 报错内容
+        const body = document.createElement("div");
+        body.className = "bug-window-body";
+
+        const errorIcon = document.createElement("span");
+        errorIcon.className = "bug-window-error";
+        errorIcon.textContent = "✖";
+        errorIcon.setAttribute("aria-hidden", "true");
+
+        const message = document.createElement("span");
+        message.textContent = "正在重新计算好感度……";
+
+        body.append(errorIcon, message);
+        win.append(titlebar, body);
+
+        // 添加到页面，触发出现动画
+        container.appendChild(win);
+
+        count++;
+    }
+
+    // 先立即出现一个窗口
+    createBugWindow();
+
+    // 然后每隔 180ms 出现一个新窗口
+    bugTimer = setInterval(createBugWindow, 60);
+
+    // 故障持续 7 秒后，显示恢复选项
+    setTimeout(function () {
+        if (!bugChaos.hidden) {
+            document.getElementById("bug-recovery").hidden = false;
+        }
+    }, 7000);
+}
+
+
+
+/* ===== 彩色雪花屏：矩形块逐渐变成噪点 ===== */
+
+let glitchTimer = null;
+let glitchResizeHandler = null;
+
+function startGlitchScreen() {
+    const canvas = document.getElementById("bug-static-canvas");
+    const ctx = canvas.getContext("2d");
+
+    // 防止重复启动
+    if (glitchTimer !== null) {
+        return;
+    }
+
+    const reducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    // 使用较低的内部分辨率，降低绘制成本
+    function resizeCanvas() {
+        canvas.width = Math.ceil(window.innerWidth / 3);
+        canvas.height = Math.ceil(window.innerHeight / 3);
+    }
+
+    resizeCanvas();
+
+    glitchResizeHandler = resizeCanvas;
+    window.addEventListener("resize", glitchResizeHandler);
+
+    const startTime = performance.now();
+
+    function drawGlitch() {
+        const width = canvas.width;
+        const height = canvas.height;
+
+        // 计算故障进度：0 到 1
+        const elapsed = performance.now() - startTime;
+        const progress = Math.min(elapsed / 7000, 1);
+
+        ctx.clearRect(0, 0, width, height);
+
+        // 深色底层，模拟显示信号异常
+        ctx.fillStyle = "#101018";
+        ctx.fillRect(0, 0, width, height);
+
+        // 前期：少量大色块
+        // 后期：更多小色块和密集噪点
+        const blockCount = Math.floor(
+            12 + progress * 100
+        );
+
+        for (let i = 0; i < blockCount; i++) {
+            const x = Math.random() * width;
+            const y = Math.random() * height;
+
+            // 随着故障加重，色块尺寸逐渐缩小
+            const maxSize = Math.max(
+                2,
+                90 * (1 - progress) + 3
+            );
+
+            const blockWidth =
+                2 + Math.random() * maxSize;
+
+            const blockHeight =
+                2 + Math.random() * maxSize * 0.65;
+
+            // 随机产生高饱和度 RGB 故障色
+            const colors = [
+                "#ff1744",
+                "#00e5ff",
+                "#76ff03",
+                "#ff00e5",
+                "#ffea00",
+                "#651fff",
+                "#ffffff"
+            ];
+
+            ctx.globalAlpha = 0.35 + Math.random() * 0.65;
+            ctx.fillStyle =
+                colors[Math.floor(Math.random() * colors.length)];
+
+            ctx.fillRect(x, y, blockWidth, blockHeight);
+        }
+
+        // 后期逐渐形成密集的彩色雪花噪点
+        const noiseCount = Math.floor(
+            progress * 2200
+        );
+
+        for (let i = 0; i < noiseCount; i++) {
+            const x = Math.random() * width;
+            const y = Math.random() * height;
+
+            const brightness = Math.random();
+
+            if (brightness < 0.33) {
+                ctx.fillStyle = "#ff304f";
+            } else if (brightness < 0.66) {
+                ctx.fillStyle = "#00e5ff";
+            } else {
+                ctx.fillStyle = "#ffffff";
+            }
+
+            ctx.globalAlpha = 0.35 + Math.random() * 0.65;
+            ctx.fillRect(
+                x,
+                y,
+                1 + Math.random() * 2,
+                1 + Math.random() * 2
+            );
+        }
+
+        // 随机水平错位条纹
+        const stripeCount = Math.floor(
+            2 + progress * 14
+        );
+
+        ctx.globalAlpha = 0.5;
+
+        for (let i = 0; i < stripeCount; i++) {
+            const y = Math.random() * height;
+            const stripeHeight = 1 + Math.random() * 5;
+
+            ctx.fillStyle = Math.random() > 0.5
+                ? "#00e5ff"
+                : "#ff1744";
+
+            ctx.fillRect(
+                Math.random() * width * 0.2,
+                y,
+                width * (0.2 + Math.random() * 0.8),
+                stripeHeight
+            );
+        }
+
+        ctx.globalAlpha = 1;
+    }
+
+    // 减少动态效果偏好下，显示静态故障画面
+    if (reducedMotion) {
+        drawGlitch();
+        return;
+    }
+
+    // 约每 70ms 重绘一次，产生明显的电视雪花闪动
+    drawGlitch();
+    glitchTimer = setInterval(drawGlitch, 70);
+}
+
+/* ===== 停止所有故障效果 ===== */
+
+function stopBugChaos() {
+    // 停止继续生成报错窗口
+    if (bugTimer !== null) {
+        clearInterval(bugTimer);
+        bugTimer = null;
+    }
+
+    // 停止雪花屏重绘
+    if (glitchTimer !== null) {
+        clearInterval(glitchTimer);
+        glitchTimer = null;
+    }
+
+    // 移除窗口尺寸变化监听器
+    if (glitchResizeHandler !== null) {
+        window.removeEventListener(
+            "resize",
+            glitchResizeHandler
+        );
+        glitchResizeHandler = null;
+    }
+
+    // 隐藏故障场景
+    const bugChaos = document.getElementById("bug-chaos");
+    const container = document.getElementById("bug-window-container");
+    const recovery = document.getElementById("bug-recovery");
+
+    bugChaos.hidden = true;
+    recovery.hidden = true;
+
+    // 清空旧窗口
+    container.replaceChildren();
+
+    // 清空画布
+    const canvas = document.getElementById("bug-static-canvas");
+    const ctx = canvas.getContext("2d");
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+
+/* ===== 恢复按钮事件 ===== */
+
+const recoveryButton = document.getElementById("bug-recovery-button");
+
+recoveryButton.addEventListener("click", function () {
+    stopBugChaos();
+
+    // 关闭最初的剧情弹窗
+    loveDialog.hidden = true;
+
+    // 恢复初始标题和文字
+    loveTitle.textContent = "检测到一个情感错误";
+    loveMessage.textContent = "你觉得这个主页怎么样？";
+    loveFeedback.textContent = "";
+
+    // 恢复三个选项
+    loveOptions.forEach(function (item) {
+        item.hidden = false;
+    });
+
+});
 
 
 // 这一段遍历我们最开始获取的所有项目卡片。
